@@ -1,4 +1,4 @@
-### Send a blog
+### Send a blog #1
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
@@ -11,7 +11,19 @@ Content-Type: application/json
 
 ###
 
-### Get all persons
+### Send a blog #2
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Pepper robot use cases",
+  "author": "Haruka Unio",
+  "url": "http://www.pepperuses.com",
+  "likes": 675
+}
+
+### Get all blogs
 GET http://localhost:3003/api/blogs
 Accept: application/json
 
