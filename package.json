@@ -1,0 +1,33 @@
+{
+  "name": "osa_4_blogilista",
+  "version": "1.0.0",
+  "description": "blogilistasovellus",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "lint": "eslint .",
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Duukkis8D/Full_Stack_Open_2018_osa_4.git"
+  },
+  "author": "Tuukka Virtanen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Duukkis8D/Full_Stack_Open_2018_osa_4/issues"
+  },
+  "homepage": "https://github.com/Duukkis8D/Full_Stack_Open_2018_osa_4#readme",
+  "dependencies": {
+    "async": "^2.6.1",
+    "cors": "^2.8.5",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.12"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "nodemon": "^1.18.6"
+  }
+}
