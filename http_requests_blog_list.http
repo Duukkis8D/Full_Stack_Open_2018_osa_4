@@ -1,5 +1,5 @@
 ### Send a blog #1
-POST http://localhost:3003/api/blogs
+POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: application/json
 
 ### Send a blog #2
 
-POST http://localhost:3003/api/blogs
+POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
@@ -23,8 +23,23 @@ Content-Type: application/json
   "likes": 675
 }
 
+###
+
+### Send an incorrect blog (lacks "likes")
+
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+   "title": "Rock Civilization - Life of Headhunterz",
+   "author": "Headhunterz",
+   "url": "https://headhunterz.com"
+}
+
+###
+
 ### Get all blogs
-GET http://localhost:3003/api/blogs
+GET http://localhost:3001/api/blogs
 Accept: application/json
 
 ###

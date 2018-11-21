@@ -92,13 +92,122 @@ beforeAll(async () => {
     await Promise.all(promiseArray);
 });
 
-test('blogs are returned as json', async () => {
-    const response = await api
-        .get('/api/blogs')
-        .expect(200)
-        .expect('Content-Type', /application\/json/);
+describe('sending and receiving blogs', () => {
+    test('blogs are returned as json', async () => {
+        const response = await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/);
 
-    expect(response.body.length).toBe(blogs.length);
+        expect(response.body.length).toBe(blogs.length);
+    });
+
+    test('a valid blog can be added', async () => {
+        const newBlog = {
+            title: 'Rock Civilization - Life of Headhunterz',
+            author: 'Headhunterz',
+            url: 'https://headhunterz.com',
+            likes: 99
+        };
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/);
+
+        const response = await api
+            .get('/api/blogs');
+
+        const contents = response.body.map(blog => blog.title);
+
+        expect(response.body.length).toBe(blogs.length + 1);
+        expect(contents).toContain('Rock Civilization - Life of Headhunterz');
+    });
+
+    test('blog without title cannot be added', async () => {
+        const newBlog = {
+            author: 'Headhunterz',
+            url: 'https://headhunterz.com',
+            likes: 99
+        };
+
+        const initialBlogs = await api
+            .get('/api/blogs');
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400);
+
+        const response = await api
+            .get('/api/blogs');
+
+        expect(response.body.length).toBe(initialBlogs.body.length);
+    });
+
+    test('blog without author cannot be added', async () => {
+        const newBlog = {
+            title: 'Rock Civilization - Life of Headhunterz',
+            url: 'https://headhunterz.com',
+            likes: 99
+        };
+
+        const initialBlogs = await api
+            .get('/api/blogs');
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400);
+
+        const response = await api
+            .get('/api/blogs');
+
+        expect(response.body.length).toBe(initialBlogs.body.length);
+    });
+
+    test('blog without url cannot be added', async () => {
+        const newBlog = {
+            title: 'Rock Civilization - Life of Headhunterz',
+            author: 'Headhunterz',
+            likes: 99
+        };
+
+        const initialBlogs = await api
+            .get('/api/blogs');
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400);
+
+        const response = await api
+            .get('/api/blogs');
+
+        expect(response.body.length).toBe(initialBlogs.body.length);
+    });
+
+    test('blog without likes cannot be added', async () => {
+        const newBlog = {
+            title: 'Rock Civilization - Life of Headhunterz',
+            author: 'Headhunterz',
+            url: 'https://headhunterz.com'
+        };
+
+        const initialBlogs = await api
+            .get('/api/blogs');
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400);
+
+        const response = await api
+            .get('/api/blogs');
+
+        expect(response.body.length).toBe(initialBlogs.body.length);
+    });
 });
 
 afterAll(() => {
