@@ -1,8 +1,7 @@
 module.exports = {
     "env": {
         "es6": true,
-        "node": true,
-	"jest": true
+        "node": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -34,5 +33,12 @@ module.exports = {
       	    "error", { "before": true, "after": true }
  	],
 	"no-console": 0
+    },
+    "globals": {
+        "test": true,
+        "expect": true,
+        "describe": true,
+        "beforeAll": true,
+        "afterAll": true
     }
 };

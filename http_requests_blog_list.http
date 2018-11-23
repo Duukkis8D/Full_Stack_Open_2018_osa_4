@@ -43,3 +43,10 @@ GET http://localhost:3001/api/blogs
 Accept: application/json
 
 ###
+
+### Delete a blog
+
+DELETE http://localhost:3001/api/blogs/5bf78702023da63ae600f57d
+Content-Type: application/json
+
+###
