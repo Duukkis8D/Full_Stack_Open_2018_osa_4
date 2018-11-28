@@ -1,4 +1,5 @@
 ### Send a blog #1
+
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
@@ -8,8 +9,6 @@ Content-Type: application/json
   "url": "http://www.nicecommands.com",
   "likes": 1267
 }
-
-###
 
 ### Send a blog #2
 
@@ -23,8 +22,6 @@ Content-Type: application/json
   "likes": 675
 }
 
-###
-
 ### Send an incorrect blog (lacks "likes")
 
 POST http://localhost:3001/api/blogs
@@ -36,17 +33,29 @@ Content-Type: application/json
    "url": "https://headhunterz.com"
 }
 
-###
-
 ### Get all blogs
+
 GET http://localhost:3001/api/blogs
 Accept: application/json
-
-###
 
 ### Delete a blog
 
 DELETE http://localhost:3001/api/blogs/5bf78702023da63ae600f57d
 Content-Type: application/json
 
-###
+### Get all users
+
+GET http://localhost:3001/api/users
+Accept: application/json
+
+### Add user
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "Duukkis",
+    "name": "Tuukka",
+    "passwordHash": "mamelukkikala",
+    "adult": true
+}

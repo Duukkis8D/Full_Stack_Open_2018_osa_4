@@ -1,10 +1,11 @@
 const blogListHelper = require('../utils/blog_list_helper');
-const { listWithOneBlog, initialBlogs, blogsInDB } = require('./test_helper');
+const { listWithOneBlog, initialBlogs, blogsInDb, usersInDb } = require('./test_helper');
 
 const supertest = require('supertest');
 const { app, server } = require('../index');
 const api = supertest(app);
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 test('dummy is called', () => {
     const blogs = [];
@@ -55,7 +56,7 @@ describe('sending and receiving blogs', () => {
             .expect(201)
             .expect('Content-Type', /application\/json/);
 
-        const response = await blogsInDB();
+        const response = await blogsInDb();
 
         const contents = response.map(blog => blog.title);
 
@@ -70,14 +71,14 @@ describe('sending and receiving blogs', () => {
             likes: 99
         };
 
-        const blogsAtStart = await blogsInDB();
+        const blogsAtStart = await blogsInDb();
 
         await api
             .post('/api/blogs')
             .send(newBlog)
             .expect(400);
 
-        const response = await blogsInDB();
+        const response = await blogsInDb();
 
         expect(response.length).toBe(blogsAtStart.length);
     });
@@ -89,14 +90,14 @@ describe('sending and receiving blogs', () => {
             likes: 99
         };
 
-        const blogsAtStart = await blogsInDB();
+        const blogsAtStart = await blogsInDb();
 
         await api
             .post('/api/blogs')
             .send(newBlog)
             .expect(400);
 
-        const response = await blogsInDB();
+        const response = await blogsInDb();
 
         expect(response.length).toBe(blogsAtStart.length);
     });
@@ -108,14 +109,14 @@ describe('sending and receiving blogs', () => {
             likes: 99
         };
 
-        const blogsAtStart = await blogsInDB();
+        const blogsAtStart = await blogsInDb();
 
         await api
             .post('/api/blogs')
             .send(newBlog)
             .expect(400);
 
-        const response = await blogsInDB();
+        const response = await blogsInDb();
 
         expect(response.length).toBe(blogsAtStart.length);
     });
@@ -127,14 +128,14 @@ describe('sending and receiving blogs', () => {
             url: 'https://headhunterz.com'
         };
 
-        const blogsAtStart = await blogsInDB();
+        const blogsAtStart = await blogsInDb();
 
         await api
             .post('/api/blogs')
             .send(newBlog)
             .expect(400);
 
-        const response = await blogsInDB();
+        const response = await blogsInDb();
 
         expect(response.length).toBe(blogsAtStart.length);
     });
@@ -155,18 +156,58 @@ describe('deletion of a blog', () => {
     });
 
     test('DELETE /api/blogs/:id succeeds with proper status code', async () => {
-        const blogsAtStart = await blogsInDB();
+        const blogsAtStart = await blogsInDb();
 
         await api
             .delete(`/api/blogs/${addedBlog._id}`)
             .expect(204);
 
-        const blogsAfterOperation = await blogsInDB();
+        const blogsAfterOperation = await blogsInDb();
 
         const blogTitles = blogsAfterOperation.map(blog => blog.title);
 
         expect(blogTitles).not.toContain(addedBlog.title);
         expect(blogsAfterOperation.length).toBe(blogsAtStart.length - 1);
+    });
+});
+
+describe('when there is initially one user at db', async () => {
+    beforeAll(async () => {
+        await User.deleteMany({});
+        const user = new User({ username: 'superuser', passwordHash: 'sekret' });
+        await user.save();
+    });
+
+    test('GET /api/users returns that one user', async () => {
+        let returnedUser = await api
+            .get('/api/users')
+            .expect(200)
+            .expect('Content-Type', /application\/json/);
+
+        returnedUser = returnedUser.body[0];
+        expect(returnedUser.username).toBe('superuser');
+    });
+
+    test('POST /api/users succeeds with a fresh username', async () => {
+        const usersBeforeOperation = await usersInDb();
+
+        const newUser = {
+            username: 'Duukkis',
+            name: 'Tuukka Virtanen',
+            passwordHash: 'salainen+1',
+            adult: true
+        };
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(200)
+            .expect('Content-Type', /application\/json/);
+
+        const usersAfterOperation = await usersInDb();
+        expect(usersAfterOperation.length).toBe(usersBeforeOperation.length+1);
+        const usernames = usersAfterOperation.map(u => u.username);
+        expect(usernames).toContain(newUser.username);
     });
 });
 

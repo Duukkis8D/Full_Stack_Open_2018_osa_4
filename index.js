@@ -5,11 +5,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const blogsRouter = require('./controllers/blogs');
+const usersRouter = require('./controllers/users');
 const config = require('./utils/config');
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/api/blogs', blogsRouter);
+app.use('/api/users', usersRouter);
 
 mongoose
     .connect(config.mongolabUri, { useNewUrlParser: true })
