@@ -1,8 +1,11 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 blogsRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({});
+    const blogs = await Blog
+        .find({})
+        .populate('user', { _id: 1, username: 1, name: 1 });
     response.json(blogs);
 });
 
@@ -17,9 +20,23 @@ blogsRouter.post('/', async (request, response) => {
         return response.status(400).json({ error: 'likes is missing' });
     }
 
+    const body = request.body;
+    let firstUser = await User.find({});
+    firstUser = firstUser[0];
+
     try {
-        const blog = new Blog(request.body);
+        const blog = new Blog({
+            title: body.title,
+            author: body.author,
+            url: body.url,
+            likes: body.likes,
+            user: firstUser._id
+        });
         const savedBlog = await blog.save();
+
+        firstUser.blogs = firstUser.blogs.concat(savedBlog._id);
+        await firstUser.save();
+
         response.status(201).json(savedBlog);
     } catch (exception) {
         console.log(exception);
