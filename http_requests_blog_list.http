@@ -59,3 +59,25 @@ Content-Type: application/json
     "passwordHash": "mamelukkikala",
     "adult": true
 }
+
+### Login with correct user credentials
+
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "Duukkis",
+    "password": "mamelukkikala"
+}
+
+### Login with incorrect user credentials
+
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "Tuukkis",
+    "password": "guessingpassword"
+}
+
+###
