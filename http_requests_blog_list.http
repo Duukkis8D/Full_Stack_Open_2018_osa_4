@@ -80,4 +80,30 @@ Content-Type: application/json
     "password": "guessingpassword"
 }
 
+### Send a blog with a valid token #1
+
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkR1dWtraXMiLCJpZCI6IjViZmRmMjQ2ZTg4NDFjNWVhNjFhMjE1MCIsImlhdCI6MTU0NDE1MDc3MH0.Ka3WKGvVlJbzX5sTAyPiBIhawFtifz4xZJp44kfwlio
+
+{
+    "title": "Bash console",
+    "author": "Uri Kiora",
+    "url": "http://www.nicecommands.com",
+    "likes": 1267
+}
+
+### Send a blog with a valid token #2
+
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkR1dWtraXMiLCJpZCI6IjViZmRmMjQ2ZTg4NDFjNWVhNjFhMjE1MCIsImlhdCI6MTU0NDE1MDc3MH0.Ka3WKGvVlJbzX5sTAyPiBIhawFtifz4xZJp44kfwlio
+
+{
+    "title": "Pepper robot use cases",
+    "author": "Haruka Unio",
+    "url": "http://www.pepperuses.com",
+    "likes": 675
+}
+
 ###
